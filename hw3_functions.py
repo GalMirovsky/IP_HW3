@@ -1,6 +1,7 @@
 import numpy as np
 import random
 
+import scipy
 from scipy.signal import convolve2d
 
 
@@ -54,14 +55,12 @@ def cleanImageMean(im, radius, maskSTD):
     cleaned_im = im.copy()
     cleaned_im = cleaned_im.astype(float)
 
-    mask = np.fromfunction(lambda x, y: np.exp(-((np.power(x, 2) + np.power(y, 2)) / (2 * np.power(maskSTD, 2)))),
-                           (-radius, radius), dtype=float)
+    ax = np.linspace(-(radius - 1) / 2., (radius - 1) / 2., radius)
+    gauss = np.exp(-0.5 * np.square(ax) / np.square(maskSTD))
+    kernel = np.outer(gauss, gauss)
+    mask = kernel / np.sum(kernel)
 
-    mask = mask / np.sum(mask)
-
-    cleaned_im = convolve2d(cleaned_im, mask, mode='same')
-
-    cleaned_im = cleaned_im.astype(np.uint8)
+    cleaned_im = convolve2d(cleaned_im, mask, mode='same').astype(np.uint8)
     return cleaned_im
 
 

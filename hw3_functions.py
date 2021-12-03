@@ -1,18 +1,17 @@
 import numpy as np
-import cv2.cv2
 import random
-import matplotlib.pyplot as plt
+
 from scipy.signal import convolve2d
 
 
 def addSPnoise(im, p):
-
     sp_noise_im = im.copy()
 
     list_indices = np.arange(sp_noise_im.size)
-    indices_to_change = np.array(random.sample(list_indices, round(p * list_indices.size)))
-    indices_to_change_to_0 = indices_to_change[:indices_to_change.size/2]
-    indices_to_change_to_255 = indices_to_change[indices_to_change.size/2:]
+    indices_to_change = np.array(random.sample(list(list_indices), round(p * list_indices.size)))
+    num_of_indices_to_0 = int(indices_to_change.size / 2)
+    indices_to_change_to_0 = indices_to_change[:num_of_indices_to_0]
+    indices_to_change_to_255 = indices_to_change[indices_to_change.size - num_of_indices_to_0:]
 
     sp_noise_im = np.ravel(sp_noise_im)
 
@@ -26,7 +25,6 @@ def addSPnoise(im, p):
 
 
 def addGaussianNoise(im, s):
-
     # todo what about negative values?
     gaussian_noise_im = im.copy()
     gaussian_noise_im = gaussian_noise_im.astype(float)
@@ -39,27 +37,24 @@ def addGaussianNoise(im, s):
 
 
 def cleanImageMedian(im, radius):
-
     median_im = im.copy()
     im = im.astype(float)
 
-    for ix in range(radius, im.np.shape(im)[0] - radius):
-        for iy in range(radius, im.np.shape(im)[1] - radius):
-
+    for ix in range(radius, im.shape[0] - radius):
+        for iy in range(radius, im.shape[1] - radius):
             window = im[iy - radius: iy + radius + 1, ix - radius: ix + radius + 1]
             median = np.median(window)
-            median_im[ix, iy] = median
+            median_im[iy, ix] = median
 
     median_im = median_im.astype(np.uint8)
     return median_im
 
 
 def cleanImageMean(im, radius, maskSTD):
-
     cleaned_im = im.copy()
     cleaned_im = cleaned_im.astype(float)
 
-    mask = np.fromfunction(lambda x, y:  np.exp(-((np.power(x, 2) + np.power(y, 2)) / (2 * np.power(maskSTD, 2)))),
+    mask = np.fromfunction(lambda x, y: np.exp(-((np.power(x, 2) + np.power(y, 2)) / (2 * np.power(maskSTD, 2)))),
                            (-radius, radius), dtype=float)
 
     mask = mask / np.sum(mask)
@@ -68,7 +63,6 @@ def cleanImageMean(im, radius, maskSTD):
 
     cleaned_im = cleaned_im.astype(np.uint8)
     return cleaned_im
-
 
 
 def bilateralFilt(im, radius, stdSpatial, stdIntensity):

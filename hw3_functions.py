@@ -1,5 +1,5 @@
 import numpy as np
-import cv2
+import cv2.cv2
 import random
 import matplotlib.pyplot as plt
 from scipy.signal import convolve2d

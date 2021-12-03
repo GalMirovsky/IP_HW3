@@ -1,105 +1,115 @@
 from hw3_functions import *
 
 
-if __name__ == "__main__":
+def main():
     # feel free to load different image than lena
     lena = cv2.imread(r"Images\lena.tif")
     lena_gray = cv2.cvtColor(lena, cv2.COLOR_BGR2GRAY)
 
     # 1 ----------------------------------------------------------
     # add salt and pepper noise - low
-    lena_sp_low = addSPnoise() # TODO - add low noise
-	
-	# add parameters to functions cleanImageMedian, cleanImageMean, bilateralFilt
-    plt.figure()
-    plt.subplot(2, 3, 1)
-    plt.imshow(lena_gray, cmap='gray', vmin=0, vmax=255)
-    plt.title("original")
-    plt.subplot(2, 3, 2)
-    plt.imshow(lena_sp_low, cmap='gray', vmin=0, vmax=255)
-    plt.title("salt and pepper - low")
-    plt.subplot(2, 3, 4)
-    plt.imshow(cleanImageMedian(), cmap='gray', vmin=0, vmax=255)
-    plt.title("median")
-    plt.subplot(2, 3, 5)
-    plt.imshow(cleanImageMean(), cmap='gray', vmin=0, vmax=255)
-    plt.title("mean")
-    plt.subplot(2, 3, 6)
-    plt.imshow(bilateralFilt(), cmap='gray', vmin=0, vmax=255)
-    plt.title("bilateral")
+    low_SP_rate = 0.5
+    lena_sp_low = addSPnoise(lena_gray, low_SP_rate)
 
-    print("Conclusions -----  TODO: add explanation\n")
+    median_radius = 3
+    median_clean = cleanImageMedian(lena_sp_low, median_radius)
+
+    mean_radius = 3
+    mean_mask_std = 1
+    mean_clean = cleanImageMean(lena_sp_low, mean_radius, mean_mask_std)
+
+    bi_radius = 3
+    bi_spatial_std = 1
+    bi_intensity_std = 1
+    bi_f = bilateralFilt(lena_sp_low, bi_radius, bi_spatial_std, bi_intensity_std)
+
+    plot_results(lena_gray, lena_sp_low, median_clean, mean_clean, bi_f)
+
+    print("Conclusions -----  \n")  # TODO: add explanation
 
     # 2 ----------------------------------------------------------
     # add salt and pepper noise - high
-    lena_sp_high = addSPnoise() # TODO - add low noise
-	
-	# add parameters to functions cleanImageMedian, cleanImageMean, bilateralFilt
-    plt.figure()
-    plt.subplot(2, 3, 1)
-    plt.imshow(lena_gray, cmap='gray', vmin=0, vmax=255)
-    plt.title("original")
-    plt.subplot(2, 3, 2)
-    plt.imshow(lena_sp_high, cmap='gray', vmin=0, vmax=255)
-    plt.title("salt and pepper - low")
-    plt.subplot(2, 3, 4)
-    plt.imshow(cleanImageMedian(), cmap='gray', vmin=0, vmax=255)
-    plt.title("median")
-    plt.subplot(2, 3, 5)
-    plt.imshow(cleanImageMean(), cmap='gray', vmin=0, vmax=255)
-    plt.title("mean")
-    plt.subplot(2, 3, 6)
-    plt.imshow(bilateralFilt(), cmap='gray', vmin=0, vmax=255)
-    plt.title("bilateral")
+    high_SP_rate = 0.8
+    lena_sp_high = addSPnoise(lena_gray, high_SP_rate)
 
-    print("Conclusions -----  TODO: add explanation \n")
+    median_radius = 3
+    median_clean = cleanImageMedian(lena_sp_high, median_radius)
+
+    mean_radius = 3
+    mean_mask_std = 1
+    mean_clean = cleanImageMean(lena_sp_high, mean_radius, mean_mask_std)
+
+    bi_radius = 3
+    bi_spatial_std = 1
+    bi_intensity_std = 1
+    bi_f = bilateralFilt(lena_sp_high, bi_radius, bi_spatial_std, bi_intensity_std)
+
+    plot_results(lena_gray, lena_sp_high, median_clean, mean_clean, bi_f)
+
+    print("Conclusions -----  \n")  # TODO: add explanation
 
     # 3 ----------------------------------------------------------
     # add gaussian noise - low
-    lena_gaussian = addGaussianNoise() # TODO - add low noise
+    low_gaussian_std = 1
+    lena_gaussian = addGaussianNoise(lena_gray, low_gaussian_std)
 
-	# add parameters to functions cleanImageMedian, cleanImageMean, bilateralFilt
-    plt.figure()
-    plt.subplot(2, 3, 1)
-    plt.imshow(lena_gray, cmap='gray', vmin=0, vmax=255)
-    plt.title("original")
-    plt.subplot(2, 3, 2)
-    plt.imshow(lena_gaussian, cmap='gray', vmin=0, vmax=255)
-    plt.title("gaussian noise - low")
-    plt.subplot(2, 3, 4)
-    plt.imshow(cleanImageMedian(), cmap='gray', vmin=0, vmax=255)
-    plt.title("median")
-    plt.subplot(2, 3, 5)
-    plt.imshow(cleanImageMean(), cmap='gray', vmin=0, vmax=255)
-    plt.title("mean")
-    plt.subplot(2, 3, 6)
-    plt.imshow(bilateralFilt(), cmap='gray', vmin=0, vmax=255)
-    plt.title("bilateral")
+    median_radius = 3
+    median_clean = cleanImageMedian(lena_gaussian, median_radius)
 
-    print("Conclusions -----  TODO: add explanation \n")
+    mean_radius = 3
+    mean_mask_std = 1
+    mean_clean = cleanImageMean(lena_gaussian, mean_radius, mean_mask_std)
+
+    bi_radius = 3
+    bi_spatial_std = 1
+    bi_intensity_std = 1
+    bi_f = bilateralFilt(lena_gaussian, bi_radius, bi_spatial_std, bi_intensity_std)
+
+    plot_results(lena_gray, lena_gaussian, median_clean, mean_clean, bi_f)
+
+    print("Conclusions -----  \n")  # TODO: add explanation
 
     # 4 ----------------------------------------------------------
     # add gaussian noise - high
-    lena_gaussian = addGaussianNoise() # TODO - add high noise
-	
-	# add parameters to functions cleanImageMedian, cleanImageMean, bilateralFilt
-    plt.figure()
-    plt.subplot(2, 3, 1)
-    plt.imshow(lena_gray, cmap='gray', vmin=0, vmax=255)
-    plt.title("original")
-    plt.subplot(2, 3, 2)
-    plt.imshow(lena_gaussian, cmap='gray', vmin=0, vmax=255)
-    plt.title("gaussian noise - high")
-    plt.subplot(2, 3, 4)
-    plt.imshow(cleanImageMedian(), cmap='gray', vmin=0, vmax=255)
-    plt.title("median")
-    plt.subplot(2, 3, 5)
-    plt.imshow(cleanImageMean(), cmap='gray', vmin=0, vmax=255)
-    plt.title("mean")
-    plt.subplot(2, 3, 6)
-    plt.imshow(bilateralFilt(), cmap='gray', vmin=0, vmax=255)
-    plt.title("bilateral")
+    high_gaussian_std = 5
+    lena_gaussian = addGaussianNoise(lena_gray, high_gaussian_std)
 
-    print("Conclusions -----  TODO: add explanation \n")
+    median_radius = 3
+    median_clean = cleanImageMedian(lena_gaussian, median_radius)
+
+    mean_radius = 3
+    mean_mask_std = 1
+    mean_clean = cleanImageMean(lena_gaussian, mean_radius, mean_mask_std)
+
+    bi_radius = 3
+    bi_spatial_std = 1
+    bi_intensity_std = 1
+    bi_f = bilateralFilt(lena_gaussian, bi_radius, bi_spatial_std, bi_intensity_std)
+
+    plot_results(lena_gray, lena_gaussian, median_clean, mean_clean, bi_f)
+
+    print("Conclusions -----   \n")  # TODO: add explanation
 
     plt.show()
+
+
+def plot_results(original, noisy, median_clean, mean_clean, bi_f):
+    plt.figure()
+    plt.subplot(2, 3, 1)
+    plt.imshow(original, cmap='gray', vmin=0, vmax=255)
+    plt.title("original")
+    plt.subplot(2, 3, 2)
+    plt.imshow(noisy, cmap='gray', vmin=0, vmax=255)
+    plt.title("gaussian noise - high")
+    plt.subplot(2, 3, 4)
+    plt.imshow(median_clean, cmap='gray', vmin=0, vmax=255)
+    plt.title("median")
+    plt.subplot(2, 3, 5)
+    plt.imshow(mean_clean, cmap='gray', vmin=0, vmax=255)
+    plt.title("mean")
+    plt.subplot(2, 3, 6)
+    plt.imshow(bi_f, cmap='gray', vmin=0, vmax=255)
+
+
+if __name__ == '__main__':
+    main()

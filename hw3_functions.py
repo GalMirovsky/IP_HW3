@@ -29,7 +29,6 @@ def addSPnoise(im, p):
 
 
 def addGaussianNoise(im, s):
-    # todo what about negative values?
     gaussian_noise_im = im.copy()
     gaussian_noise_im = gaussian_noise_im.astype(float)
 

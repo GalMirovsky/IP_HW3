@@ -28,7 +28,7 @@ def main():
     bi_intensity_std = 45
     bi_f = bilateralFilt(lena_sp_low, bi_radius, bi_spatial_std, bi_intensity_std)
 
-    # plot_results(lena_gray, lena_sp_low, noise_name, median_clean, mean_clean, bi_f)
+    plot_results(lena_gray, lena_sp_low, noise_name, median_clean, mean_clean, bi_f)
 
     print(
         f"Conclusions for {noise_name} noise -----\n"
@@ -55,7 +55,7 @@ def main():
     bi_intensity_std = 45
     bi_f = bilateralFilt(lena_sp_high, bi_radius, bi_spatial_std, bi_intensity_std)
 
-    # plot_results(lena_gray, lena_sp_high, noise_name, median_clean, mean_clean, bi_f)
+    plot_results(lena_gray, lena_sp_high, noise_name, median_clean, mean_clean, bi_f)
 
     print(
         f"Conclusions for {noise_name} noise -----\n"
@@ -70,10 +70,10 @@ def main():
     low_gaussian_std = 20
     lena_gaussian = addGaussianNoise(lena_gray, low_gaussian_std)
 
-    median_radius = 2
+    median_radius = 3
     median_clean = cleanImageMedian(lena_gaussian, median_radius)
 
-    mean_radius = 2
+    mean_radius = 3
     mean_mask_std = 2
     mean_clean = cleanImageMean(lena_gaussian, mean_radius, mean_mask_std)
 
@@ -86,9 +86,9 @@ def main():
 
     print(
         f"Conclusions for {noise_name} noise -----\n"
-        f"1. \n"
-        f"2. \n"
-        f"3. \n"
+        f"1. Bi\n"
+        f"2. Mean\n"
+        f"3. Median\n"
     )  # TODO: add explanation
 
     # 4 ----------------------------------------------------------
@@ -101,12 +101,12 @@ def main():
     median_clean = cleanImageMedian(lena_gaussian, median_radius)
 
     mean_radius = 2
-    mean_mask_std = 2
+    mean_mask_std = 5
     mean_clean = cleanImageMean(lena_gaussian, mean_radius, mean_mask_std)
 
     bi_radius = 4
     bi_spatial_std = 30
-    bi_intensity_std = 45
+    bi_intensity_std = 90
     bi_f = bilateralFilt(lena_gaussian, bi_radius, bi_spatial_std, bi_intensity_std)
 
     plot_results(lena_gray, lena_gaussian, noise_name, median_clean, mean_clean, bi_f)

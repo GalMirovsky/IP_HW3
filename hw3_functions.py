@@ -87,6 +87,7 @@ def bilateralFilt(im, radius, stdSpatial, stdIntensity):
 
             ax = np.linspace(-radius, radius, (mask_size, mask_size))
 
+
             gauss = np.exp(-0.5 * np.square(ax) / np.square(stdIntensity))
             kernel = np.outer(gauss, gauss)
             gi = kernel / np.sum(kernel)

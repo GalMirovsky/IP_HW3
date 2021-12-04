@@ -1,7 +1,6 @@
 import numpy as np
 import random
 
-import scipy
 from scipy.signal import convolve2d
 
 
@@ -47,9 +46,9 @@ def cleanImageMedian(im, radius):
 
     for ix in range(radius, im.shape[0] - radius):
         for iy in range(radius, im.shape[1] - radius):
-            window = im[iy - radius: iy + radius + 1, ix - radius: ix + radius + 1]
+            window = im[ix - radius: ix + radius + 1, iy - radius: iy + radius + 1]
             median = np.median(window)
-            median_im[iy, ix] = median
+            median_im[ix, iy] = median
 
     median_im = median_im.astype(np.uint8)
     return median_im
@@ -70,8 +69,6 @@ def cleanImageMean(im, radius, maskSTD):
 
 
 def bilateralFilt(im, radius, stdSpatial, stdIntensity):
-    # todo need to ignore edges?
-
     im = im.astype(float)
     bilateral_im = im.copy()
 
@@ -81,19 +78,15 @@ def bilateralFilt(im, radius, stdSpatial, stdIntensity):
     kernel = np.outer(gauss, gauss)
     gs = kernel / np.sum(kernel)
 
-    for ix in range(radius, im.np.shape(im)[0] - radius):
-        for iy in range(radius, im.np.shape(im)[1] - radius):
-            window = im[iy - radius: iy + radius + 1, ix - radius: ix + radius + 1]
+    for ix in range(radius, im.shape[0] - radius):
+        for iy in range(radius, im.shape[1] - radius):
+            window = im[ix - radius: ix + radius + 1, iy - radius: iy + radius + 1]
 
-            ax = np.linspace(-radius, radius, (mask_size, mask_size))
+            gi = np.exp(- (np.square(window - im[ix, iy])) / (2 * np.square(stdIntensity)))
+            gi = gi / np.sum(gi)
 
-
-            gauss = np.exp(-0.5 * np.square(ax) / np.square(stdIntensity))
-            kernel = np.outer(gauss, gauss)
-            gi = kernel / np.sum(kernel)
-
-
-            bilateral_im[ix, iy] = np.sum(np.multiply(np.multiply(gs, window)), gi) / np.sum(np.multiply(gi, gs))
+            bilateral_im[ix, iy] = np.round(
+                np.sum(np.multiply(np.multiply(gs, window), gi)) / np.sum(np.multiply(gi, gs)))
 
     bilateral_im = bilateral_im.astype(np.uint8)
     return bilateral_im

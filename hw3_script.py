@@ -6,6 +6,9 @@ from hw3_functions import *
 
 def main():
     # feel free to load different image than lena
+
+    print_IDs()
+
     lena = cv2.imread(r"Images\lena.tif")
     lena_gray = cv2.cvtColor(lena, cv2.COLOR_BGR2GRAY)
 
